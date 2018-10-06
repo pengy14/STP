@@ -34,8 +34,8 @@ public class Sender_start {
         Args.local_port = Args.ds.getLocalPort();
         System.out.println("local port number is "+Args.local_port);
 
-        Receiver receiver=new Receiver();
-        receiver.run();
+//        Receiver receiver=new Receiver();
+//        receiver.run();
 
         Thread connect=new Connect();
         connect.run();

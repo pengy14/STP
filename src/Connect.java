@@ -55,16 +55,18 @@ public class Connect extends Thread {
                  * 2 seconds, then check whether received a SYN ACK
                  */
                 Thread.sleep(2000);
-                byte[] SYNACK = new byte[4];
+                byte[] SYNACK = new byte[1];
                 byte[] receiver_seq_byte=new byte[4];
                 byte[] buffer = new byte[1024];
                 DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
                 Args.ds.receive(dp);
+                System.out.println("has received dp from receiver");
                 byte[] packet_buffer = dp.getData();
                 System.arraycopy(packet_buffer, 0, SYNACK, 0, 1);
                 System.arraycopy(packet_buffer, 1, receiver_seq_byte, 0, 4);
                 int receive_seq=Helper.Byte2Int(receiver_seq_byte);
-                if (Helper.Byte2Int(SYNACK) == -64) {//SYN=1 && ACk=1
+                if (packet_buffer[0] == -64) {//SYN=1 && ACk=1
+                    System.out.println("third shake");
                     sendPacket(0,1,seq_num,++receive_seq);  //3rd shakehand
                     Args.flagSYNACK=true;
                 }
@@ -86,6 +88,8 @@ public class Connect extends Thread {
             Args.ack_num = 0;
             try {
                 Thread.sleep(2000);
+
+                //TODO  connectedflag set 第三次发送实现，确定建立链接
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -167,6 +164,7 @@ class Receiver extends Thread {
         DatagramPacket dp = new DatagramPacket(buffer,buffer.length);
         System.out.println("Reveiver starts.");
         SocketAddress dest_addr = null;
+        int senderport=0;
         HashMap <Integer, byte[]> list = new HashMap<Integer, byte[]>();
         int LastWriteByte = 0;
         int tosendSeq = 0;
@@ -182,6 +180,7 @@ class Receiver extends Thread {
              * like ack number, seq number from header.
              */
             dest_addr = dp.getSocketAddress();
+            System.out.println("dest_addr   "+dest_addr);
             byte[] buf = dp.getData();
             byte[] header = new byte[header_len];
             System.arraycopy(buf, 0, header, 0, header_len);
@@ -206,7 +205,7 @@ class Receiver extends Thread {
                     recordIn(data, 1, 0, seq_num, ack_num, packet_len);
                     // set both  SYN and ACK to 1
                     header1[0] = (byte) 0xc0;
-                    System.out.println("received a SYN");
+                    System.out.println("receive a SYN");
                 }
                 else {
                     recordIn(data, 0, 1, seq_num, ack_num, packet_len);
@@ -215,6 +214,7 @@ class Receiver extends Thread {
                     System.out.println("received an ACK");
                 }
                 int tosendAck = seq_num+1;
+                System.out.println("tosendAck  "+tosendAck);
                 System.arraycopy(Helper.Int2Byte(tosendAck), 0, header1, 5, 4);
                 System.arraycopy(Helper.Int2Byte(tosendSeq), 0, header1, 1, 4);
                 byte[] packet = new byte[header1.length];
@@ -229,6 +229,7 @@ class Receiver extends Thread {
                             dest_addr);
                     // write log
                     recordOut(1, 1, tosendSeq, tosendAck, packet.length);
+                    System.out.println("has sent dp1");
                     ds.send(dp1);
                 } catch (SocketException e) {
                     // TODO Auto-generated catch block

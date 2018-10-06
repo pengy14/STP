@@ -1,0 +1,30 @@
+Time: 2018-10-05 14:34:10
+Event: Received a SYN with seq number 1
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 ack_num: 0 packet length: 20
+
+Time: 2018-10-05 14:34:10
+Event: Transmitted an ACK packet with ack number 2
+Packet Details:
+Header: SYN = 1  ACK = 1 seq_num: 0 packet length: 20
+
+Time: 2018-10-05 14:34:14
+Event: Received a SYN with seq number 3
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 3 ack_num: 0 packet length: 20
+
+Time: 2018-10-05 14:34:14
+Event: Transmitted an ACK packet with ack number 4
+Packet Details:
+Header: SYN = 1  ACK = 1 seq_num: 3 packet length: 20
+
+Time: 2018-10-05 14:34:18
+Event: Received a SYN with seq number 5
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 5 ack_num: 0 packet length: 20
+
+Time: 2018-10-05 14:34:18
+Event: Transmitted an ACK packet with ack number 6
+Packet Details:
+Header: SYN = 1  ACK = 1 seq_num: 6 packet length: 20
+
