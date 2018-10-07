@@ -38,14 +38,15 @@ class Receiver extends Thread {
     /*
      * write data to file
      */
-    public boolean WriteFile(byte[] data) {
+    public void WriteFile(byte[] data) {
         try {
+            String content=new String(data);
+//            System.out.println("write content  "+content+'\n');
             fos.write(data);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return false;
     }
 
 
@@ -270,10 +271,12 @@ class Receiver extends Thread {
             }
             // all flags in header are 0, means this is a data packet
             else if (header[0] == 0) {
-                recordOut(data, 0, 0, seq_num, ack_num, packet_len);
+                System.out.println("receive a datapacket");
+                recordOut( 0, 0, seq_num, ack_num, packet_len);
                 list.put(seq_num, data);
                 System.out.println("Received a data packet with seq num " + seq_num);
-
+                WriteFile(data);
+                System.out.println(new String(data)+"   dataaaaaaaaa  ");
                 byte[] tosend = new byte[header_len];
                 // set ACK flag to 1
                 tosend[0] = 0x40;
@@ -284,37 +287,37 @@ class Receiver extends Thread {
                  * cumulative ack, so the ack number will be last byte which is
                  * in right order.
                  */
-                while (true) {
-                    if (!list.containsKey(tosend_ack_num))
-                        break;
-                    int add = list.get(tosend_ack_num).length;
-                    tosend_ack_num += add;
-                }
-
-                byte[] tosend_ack = Helper.Int2Byte(tosend_ack_num);
-                System.arraycopy(Helper.Int2Byte(tosendSeq), 0, tosend, 1, 4);
-                System.arraycopy(tosend_ack, 0, tosend, 5, tosend_ack.length);
-                System.arraycopy(Helper.Int2Byte(tosend.length), 0, tosend, 9, 4);
-                try {
-                    DatagramPacket out_dp = new DatagramPacket(tosend, tosend.length, dest_addr);
-                    recordOut(0, 1, tosendSeq, tosend_ack_num, tosend.length);
-                    ds.send(out_dp);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                /*
-                 * Write all ordered data in receive window to file
-                 */
-                while (true) {
-                    if (!list.containsKey(LastWriteByte))
-                        break;
-                    byte[] towrite = list.get(LastWriteByte);
-                    WriteFile(towrite);
-                    int add = towrite.length;
-                    list.remove(LastWriteByte);
-                    LastWriteByte += add;
-                }
+//                while (true) {
+//                    if (!list.containsKey(tosend_ack_num))
+//                        break;
+//                    int add = list.get(tosend_ack_num).length;
+//                    tosend_ack_num += add;
+//                }
+//
+//                byte[] tosend_ack = Helper.Int2Byte(tosend_ack_num);
+//                System.arraycopy(Helper.Int2Byte(tosendSeq), 0, tosend, 1, 4);
+//                System.arraycopy(tosend_ack, 0, tosend, 5, tosend_ack.length);
+//                System.arraycopy(Helper.Int2Byte(tosend.length), 0, tosend, 9, 4);
+//                try {
+//                    DatagramPacket out_dp = new DatagramPacket(tosend, tosend.length, dest_addr);
+//                    recordOut(0, 1, tosendSeq, tosend_ack_num, tosend.length);
+//                    ds.send(out_dp);
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//                /*
+//                 * Write all ordered data in receive window to file
+//                 */
+//                while (true) {
+//                    if (!list.containsKey(LastWriteByte))
+//                        break;
+//                    byte[] towrite = list.get(LastWriteByte);
+//                    WriteFile(towrite);
+//                    int add = towrite.length;
+//                    list.remove(LastWriteByte);
+//                    LastWriteByte += add;
+//                }
             }
             tosendSeq++;
         }

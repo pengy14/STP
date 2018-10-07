@@ -39,6 +39,6 @@ public class Sender_start {
 
         Thread connect=new Connect();
         connect.run();
-        Args.ds.close();
+//        Args.ds.close();
     }
 }
