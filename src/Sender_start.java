@@ -5,7 +5,7 @@ public class Sender_start {
     public static void main(String args[]) {
         Args.RECEIVE_HOST_IP = args[0];
         Args.RECEIVE_PORT = Integer.parseInt(args[1]);
-        Args.filename = args[2];
+        Args.filename += args[2];
         Args.MWS = Integer.parseInt(args[3]);
         Args.MSS = Integer.parseInt(args[4]);
         Args.gamma = Integer.parseInt(args[5]);
@@ -39,5 +39,6 @@ public class Sender_start {
 
         Thread connect=new Connect();
         connect.run();
+        Args.ds.close();
     }
 }

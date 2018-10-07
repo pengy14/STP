@@ -1,0 +1,60 @@
+Time: 2018-10-06 11:57:32
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 20
+
+Time: 2018-10-06 11:57:32
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 20
+
+Time: 2018-10-07 11:33:24
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-07 11:33:24
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-07 11:34:48
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-07 11:34:48
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-07 16:22:45
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-07 16:22:45
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-07 16:25:12
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-07 16:25:12
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-07 16:33:55
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-07 16:33:55
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+

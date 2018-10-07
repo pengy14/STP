@@ -4,11 +4,11 @@ import java.util.Timer;
 
 public class Args {
 
-    public static int header_len = 20;
+    public static int header_len = 13;
     public static String RECEIVE_HOST_IP = "127.0.0.1";
     public static int RECEIVE_PORT = 6666;
     public static int CLIENT_PORT = 2000;
-    public static String filename = "test1.txt";
+    public static String filename = "./src/";
     public static int MWS = 400;
     public static int MSS = 50;
     public static int gamma;
@@ -29,6 +29,7 @@ public class Args {
     public static int base = 0;
     public static int baseEnd = base + MWS;
     public static Timer timer = new Timer();
+//    public static int timeout=
 //    public static
     // HashMap used to simulate send window
     public static HashMap<Integer, byte[]> window = new HashMap<Integer, byte[]>();

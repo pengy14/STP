@@ -8,7 +8,7 @@ import java.util.Date;
 class Log {
 
     // name of log file
-    private static String logname = "mtp_sender_log.txt";
+    private static String logname = "./src/Sender_log.txt";
 
     // Constructor of class Log
     public Log() {
@@ -68,17 +68,21 @@ class Log {
     // write log for transmission of data packet
     public void recordTrans(byte[] sent_packet, boolean sent) {
         byte[] header = new byte[Args.header_len];
-        byte[] data = new byte[sent_packet.length-Args.header_len];
         System.arraycopy(sent_packet, 0, header, 0, Args.header_len);
-        System.arraycopy(sent_packet, Args.header_len, data, 0, data.length);
         byte[] seq = new byte[4];
         byte[] ack = new byte[4];
+        byte[] packet_length=new byte[4];
         System.arraycopy(header, 5, ack, 0, 4);
         System.arraycopy(header, 1, seq, 0, 4);
+        System.arraycopy(header, 9, packet_length, 0, 4);
         int seq_num = Helper.Byte2Int(seq);
         int ack_num = Helper.Byte2Int(ack);
+        int packet_len = Helper.Byte2Int(packet_length);
+        System.out.println("packet_len   "+packet_len);
+        byte[] data = new byte[packet_len-Args.header_len];
+        System.arraycopy(sent_packet, Args.header_len, data, 0, data.length);
         String content = new String(data);
-        int packet_len = sent_packet.length;
+
         // set time format
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df.format(new Date());
@@ -104,12 +108,12 @@ class Log {
             // transmitted a DATA packet
             else {
                 if (sent)
-                    output.write("Event: Transmitted DATA packet with sequence number "+seq_num+'\n');
+                    output.write("Event: Transmitted DATA packet with sequence number "+seq_num+"   ");
                 else
-                    output.write("Event: Dropped packet with sequence number "+seq_num+'\n');
+                    output.write("Event: Dropped packet with sequence number "+seq_num+"   ");
                 output.write("Packet Details:\n");
                 output.write("Header: SYN = 0  ACK = 0 seq_num: "+seq_num+
-                        " packet length: "+packet_len+'\n');
+                        " packet length: "+packet_len+"   ");
                 output.write("Data:\n"+content+"\n\n");
             }
         } catch (IOException e) {

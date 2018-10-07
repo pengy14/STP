@@ -12,27 +12,27 @@ import java.util.HashMap;
 class Receiver extends Thread {
 
     private FileOutputStream fos;
-    // name of log file
-    private String logname = "Receiver_log.txt";
+    // path of log file
+    private String logFilePath = "./src/Receiver_log.txt";
+    //log file
+    private File logFile;
     // length of mtp header
-    private final static int header_len = 20;
+    private final static int header_len = 13;
     // port number of receiver
     private int port;
-    // name of file which data will be written to
-    private String filename="Receiver.txt";
+    // path of file which data will be written to
+    private String receiveFilePath = "./src/Receiver.txt";
+    //receive file
+    private File receiveFile;
 
 
-
-
-    public Receiver(int port, String filename) {
+    public Receiver(int port, String receiveFilePath) {
         this.port = port;
-        this.filename = filename;
+        this.receiveFilePath = receiveFilePath;
     }
 
     public Receiver() {
     }
-
-
 
 
     /*
@@ -60,29 +60,28 @@ class Receiver extends Thread {
         String content = null;
         if (data != null)
             content = new String(data);
-
+        System.out.println("content    " + content);
         BufferedWriter output = null;
         try {
-            output = new BufferedWriter(new FileWriter(logname,true));
-            output.write("Time: "+time+'\n');
+            output = new BufferedWriter(new FileWriter(logFile, true));
+            output.write("Time: " + time + '\n');
             if (SYN == 1) {
-                output.write("Event: Received a SYN with seq number "+seq_num+'\n');
+                System.out.println("come in SYN 1 not write");
+                output.write("Event: Received a SYN with seq number " + seq_num + '\n');
                 output.write("Packet Details:\n");
-                output.write("Header: SYN = 1  ACK = 0 seq_num: "+seq_num+
-                        " ack_num: "+ack_num+" packet length: "+packet_len+"\n\n");
-            }
-            else if (ACK == 1) {
-                output.write("Event: Received an ACK with ack number "+ack_num+'\n');
+                output.write("Header: SYN = 1  ACK = 0 seq_num: " + seq_num +
+                        " ack_num: " + ack_num + " packet length: " + packet_len + "\n\n");
+            } else if (ACK == 1) {
+                output.write("Event: Received an ACK with ack number " + ack_num + '\n');
                 output.write("Packet Details:\n");
-                output.write("Header: SYN = 0  ACK = 1 ack_num: "+ack_num+
-                        " seq_num: "+seq_num+" packet length: "+packet_len+"\n\n");
-            }
-            else {
-                output.write("Event: Received an DATA packet with seq number "+seq_num+'\n');
+                output.write("Header: SYN = 0  ACK = 1 ack_num: " + ack_num +
+                        " seq_num: " + seq_num + " packet length: " + packet_len + "\n\n");
+            } else {
+                output.write("Event: Received an DATA packet with seq number " + seq_num + '\n');
                 output.write("Packet Details:\n");
-                output.write("Header: SYN = 0  ACK = 0 seq_num: "+seq_num+
-                        " ack_num: "+ack_num+" packet length: "+packet_len+'\n');
-                output.write("Data:\n"+content+"\n\n");
+                output.write("Header: SYN = 0  ACK = 0 seq_num: " + seq_num +
+                        " ack_num: " + ack_num + " packet length: " + packet_len + '\n');
+                output.write("Data:\n" + content + "\n\n");
             }
 
         } catch (IOException e) {
@@ -100,7 +99,7 @@ class Receiver extends Thread {
     /*
      * write log for packet received
      */
-    public void recordOut(int SYN, int ACK,int seq_num, int ack_num,
+    public void recordOut(int SYN, int ACK, int seq_num, int ack_num,
                           int packet_len) {
 
         // set time format
@@ -108,20 +107,31 @@ class Receiver extends Thread {
         String time = df.format(new Date());
 
         BufferedWriter output = null;
+
         try {
-            output = new BufferedWriter(new FileWriter(logname,true));
-            output.write("Time: "+time+'\n');
-            if (SYN == 0 && ACK == 1) {
-                output.write("Event: Transmitted an ACK packet with ack number "+ack_num+'\n');
+            output = new BufferedWriter(new FileWriter(logFilePath, true));
+            output.write("Time: " + time + '\n');
+            if (SYN == 1 && ACK == 0) {
+                output.write("Event:Connection request" + '\n');
                 output.write("Packet Details:\n");
-                output.write("Header: SYN = 0  ACK = 1 seq_num: "+seq_num+
-                        " packet length: "+packet_len+"\n\n");
-            }
-            else if (SYN == 1 && ACK == 1) {
-                output.write("Event: Transmitted an ACK packet with ack number "+ack_num+'\n');
+                output.write("Header: SYN = 1  ACK = 0 seq_num: " + seq_num +
+                        " packet length: " + packet_len + "\n\n");
+
+            } else if (SYN == 0 && ACK == 1) {
+                output.write("Event: Transmitted an ACK packet with ack number " + ack_num + '\n');
                 output.write("Packet Details:\n");
-                output.write("Header: SYN = 1  ACK = 1 seq_num: "+seq_num+
-                        " packet length: "+packet_len+"\n\n");
+                output.write("Header: SYN = 0  ACK = 1 seq_num: " + seq_num +
+                        " packet length: " + packet_len + "\n\n");
+            } else if (SYN == 1 && ACK == 1) {
+                output.write("Event: Transmitted an ACK packet with ack number " + ack_num + '\n');
+                output.write("Packet Details:\n");
+                output.write("Header: SYN = 1  ACK = 1 seq_num: " + seq_num +
+                        " packet length: " + packet_len + "\n\n");
+            }else {//SYN=0  ACK=0  data packet
+                output.write("Event: Transmitted an data packet with ack number " + ack_num + "   ");
+                output.write("Packet Details:\n");
+                output.write("Header: SYN = 0  ACK = 0 seq_num: " + seq_num +
+                        " packet length: " + packet_len + "\n\n");
             }
 
         } catch (IOException e) {
@@ -137,23 +147,25 @@ class Receiver extends Thread {
     }
 
 
-
-
     @Override
     public void run() {
-        File f = new File(filename);
-        if (f.exists())
-            f.delete();
+        receiveFile = new File(receiveFilePath);
+
         try {
-            fos = new FileOutputStream(new File(filename), true);
+            fos = new FileOutputStream(new File(receiveFilePath), true);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
-        File log = new File(logname);
-        if (log.exists())
-            log.delete();
-        new File(logname);
+
+        logFile = new File(logFilePath);
+        try {
+            if (logFile.createNewFile()) System.out.println("craete successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         DatagramSocket ds = null;
+
         try {
             ds = new DatagramSocket(port);
         } catch (SocketException e) {
@@ -161,11 +173,11 @@ class Receiver extends Thread {
         }
 
         byte[] buffer = new byte[1024];
-        DatagramPacket dp = new DatagramPacket(buffer,buffer.length);
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
         System.out.println("Reveiver starts.");
         SocketAddress dest_addr = null;
-        int senderport=0;
-        HashMap <Integer, byte[]> list = new HashMap<Integer, byte[]>();
+        int senderport = 0;
+        HashMap<Integer, byte[]> list = new HashMap<Integer, byte[]>();
         int LastWriteByte = 0;
         int tosendSeq = 0;
         while (true) {
@@ -180,7 +192,7 @@ class Receiver extends Thread {
              * like ack number, seq number from header.
              */
             dest_addr = dp.getSocketAddress();
-            System.out.println("dest_addr   "+dest_addr);
+            System.out.println("dest_addr   " + dest_addr);
             byte[] buf = dp.getData();
             byte[] header = new byte[header_len];
             System.arraycopy(buf, 0, header, 0, header_len);
@@ -193,28 +205,27 @@ class Receiver extends Thread {
             int ack_num = Helper.Byte2Int(ack);
             int seq_num = Helper.Byte2Int(seq);
             int packet_len = Helper.Byte2Int(pl);
-            byte[] data = new byte[packet_len-header_len];
+            byte[] data = new byte[packet_len - header_len];
             System.arraycopy(buf, header_len, data, 0, data.length);
             /*
              *  header[0] == -128 means SYN flag is 1,
              *  header[0] == 64 means ACK flag is 1
              */
-            if (header[0] == -128 ) {//SYN flag is 1,connection request
+            if (header[0] == -128) {//SYN flag is 1,connection request
                 byte[] header1 = new byte[header_len];
                 if (header[0] == -128) {
-                    recordIn(data, 1, 0, seq_num, ack_num, packet_len);
+                    recordOut(1, 0, seq_num, ack_num, packet_len);
                     // set both  SYN and ACK to 1
                     header1[0] = (byte) 0xc0;
                     System.out.println("receive a SYN");
-                }
-                else {
+                } else {
                     recordIn(data, 0, 1, seq_num, ack_num, packet_len);
                     // set ACK to 1
                     header1[0] = (byte) 0x40;
                     System.out.println("received an ACK");
                 }
-                int tosendAck = seq_num+1;
-                System.out.println("tosendAck  "+tosendAck);
+                int tosendAck = seq_num + 1;
+                System.out.println("tosendAck  " + tosendAck);
                 System.arraycopy(Helper.Int2Byte(tosendAck), 0, header1, 5, 4);
                 System.arraycopy(Helper.Int2Byte(tosendSeq), 0, header1, 1, 4);
                 byte[] packet = new byte[header1.length];
@@ -228,7 +239,7 @@ class Receiver extends Thread {
                             packet.length,
                             dest_addr);
                     // write log
-                    recordOut(1, 1, tosendSeq, tosendAck, packet.length);
+                    recordIn(null,1, 1, tosendSeq, tosendAck, packet.length);
                     System.out.println("has sent dp1");
                     ds.send(dp1);
                 } catch (SocketException e) {
@@ -259,9 +270,9 @@ class Receiver extends Thread {
             }
             // all flags in header are 0, means this is a data packet
             else if (header[0] == 0) {
-                recordIn(data, 0, 0, seq_num, ack_num, packet_len);
+                recordOut(data, 0, 0, seq_num, ack_num, packet_len);
                 list.put(seq_num, data);
-                System.out.println("Received a data packet with seq num "+seq_num);
+                System.out.println("Received a data packet with seq num " + seq_num);
 
                 byte[] tosend = new byte[header_len];
                 // set ACK flag to 1
@@ -273,7 +284,7 @@ class Receiver extends Thread {
                  * cumulative ack, so the ack number will be last byte which is
                  * in right order.
                  */
-                while(true) {
+                while (true) {
                     if (!list.containsKey(tosend_ack_num))
                         break;
                     int add = list.get(tosend_ack_num).length;

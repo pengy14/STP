@@ -90,6 +90,7 @@ public class Connect extends Thread {
                 Thread.sleep(2000);
 
                 //TODO  connectedflag set 第三次发送实现，确定建立链接
+                Args.connected=true;
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -97,8 +98,8 @@ public class Connect extends Thread {
         }
 
 
-        Thread ttrans = new TransferFile();
-        ttrans.start();
+        Thread transferFile = new TransferFile();
+        transferFile.start();
 
     }
 

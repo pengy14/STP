@@ -7,7 +7,7 @@ public class Reveiver_start {
          *  start receiver to listen at port number given
          *  by standard input
          */
-        Thread trec = new Receiver(port, filename);
-        trec.start();
+        Thread receiver = new Receiver(port, filename);
+        receiver.start();
     }
 }
