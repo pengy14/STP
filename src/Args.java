@@ -33,6 +33,9 @@ public class Args {
 //    public static
     // HashMap used to simulate send window
     public static HashMap<Integer, byte[]> window = new HashMap<Integer, byte[]>();
+
+    public static HashMap<Integer, byte[]> sentNotAcked = new HashMap<Integer, byte[]>();
+
     public static int file_length;
     // the instance of class Log
     public static Log log;

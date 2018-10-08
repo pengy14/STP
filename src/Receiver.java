@@ -207,7 +207,9 @@ class Receiver extends Thread {
             int seq_num = Helper.Byte2Int(seq);
             int packet_len = Helper.Byte2Int(pl);
             byte[] data = new byte[packet_len - header_len];
+            System.out.println("received data length   "+data.length);
             System.arraycopy(buf, header_len, data, 0, data.length);
+            System.out.println("received data :"+new String(data));
             /*
              *  header[0] == -128 means SYN flag is 1,
              *  header[0] == 64 means ACK flag is 1

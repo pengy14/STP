@@ -40,3 +40,73 @@ Time: 2018-10-07 22:19:12
 Event: Transmitted an data packet with ack number 0   Packet Details:
 Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
 
+Time: 2018-10-08 12:05:45
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-08 12:05:45
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-08 12:05:49
+Event: Transmitted an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
+
+Time: 2018-10-08 12:06:44
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-08 12:06:44
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-08 12:06:48
+Event: Transmitted an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
+
+Time: 2018-10-08 12:07:37
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-08 12:07:37
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-08 12:07:41
+Event: Transmitted an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
+
+Time: 2018-10-08 12:10:16
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-08 12:10:16
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-08 12:10:20
+Event: Transmitted an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
+
+Time: 2018-10-08 12:19:13
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-08 12:19:13
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-08 12:19:17
+Event: Transmitted an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85
+

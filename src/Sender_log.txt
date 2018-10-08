@@ -1,19 +1,19 @@
-Time: 2018-10-07 22:19:08
+Time: 2018-10-08 12:19:13
 Event: Transmitted SYN packet with sequence number 1
 Packet Details:
 Header: SYN = 1  ACK = 0 seq_num: 1 ack_num: 0 packet length: 13
 
-Time: 2018-10-07 22:19:10
+Time: 2018-10-08 12:19:15
 Event: Transmitted ACK packet with ack number 1
 Packet Details:
 Header: SYN = 0  ACK = 1 seq_num: 2 ack_num: 1 packet length: 13
 
-Time: 2018-10-07 22:19:10
+Time: 2018-10-08 12:19:15
 Event: Transmitted ACK packet with ack number 1
 Packet Details:
 Header: SYN = 0  ACK = 1 seq_num: 2 ack_num: 1 packet length: 13
 
-Time: 2018-10-07 22:19:12
+Time: 2018-10-08 12:19:17
 Event: Transmitted DATA packet with sequence number 0   Packet Details:
 Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85   Data:
 11111111

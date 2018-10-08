@@ -1,34 +1,38 @@
 import java.util.Random;
 
 public class PLD {
-    private static Random random = new Random(Args.seed);
-    private static float p = random.nextFloat();
+    private Random random = new Random(Args.seed);
+    float p;
 
-    public static boolean isDrop() {
+    public PLD() {
+        this.p = random.nextFloat();
+    }
+
+    public boolean isDrop() {
         if (p > Args.pDrop)
             return true;
         return false;
     }
 
-    public static boolean isDuplicate() {
+    public boolean isDuplicate() {
         if (p > Args.pDuplicate)
             return true;
         return false;
     }
 
-    public static boolean isCorrupt() {
+    public boolean isCorrupt() {
         if (p > Args.pCorrupt)
             return true;
         return false;
     }
 
-    public static boolean isOrder() {
+    public boolean isOrder() {
         if (p > Args.pOrder)
             return true;
         return false;
     }
 
-    public static boolean isDelay(){
+    public boolean isDelay() {
         if (p > Args.pDelay)
             return true;
         return false;

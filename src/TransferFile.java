@@ -23,31 +23,57 @@ public class TransferFile extends Thread {
         byte[] ACKBuf = new byte[20];
         try {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(Args.filename)));
+            int segmentSize = Args.MSS;
             byte[] readBuf = new byte[1024];
-            byte[] toSendBuf=new byte[1024+13];
-            toSendBuf[0]= (byte) 0x00;
-            int seq=0;
-
-            //TODO header要填充
+            byte[] toSendSegment = new byte[segmentSize + 13];
+            toSendSegment[0] = (byte) 0x00;
+            int seq = 0;
             receiveACKPacket = new DatagramPacket(ACKBuf, ACKBuf.length);
             while ((lenthPerRead = inputStream.read(readBuf)) != -1) {
-                System.out.println("everytime read "+readBuf);
-                System.arraycopy(Helper.Int2Byte(seq),0,toSendBuf,1,4);
-                System.arraycopy(Helper.Int2Byte(0),0,toSendBuf,5,4);
-                System.arraycopy(Helper.Int2Byte(lenthPerRead+13),0,toSendBuf,9,4);
-                System.arraycopy(readBuf,0,toSendBuf,13,lenthPerRead);
-                toSendPacket = new DatagramPacket(toSendBuf, lenthPerRead, new InetSocketAddress(Args.RECEIVE_HOST_IP, Args.RECEIVE_PORT));
-                //TODO  PLD and log and send
-                Args.log.recordTrans(toSendBuf,true);
-                Args.ds.send(toSendPacket);
-                seq++;
+                //TODO PLD
+                while (Args.LastByteAcked != readBuf.length) {//
+                    if (Args.baseEnd - Args.LastByteSent >= toSendSegment.length) {//avaliable space to send
+
+                        //initial header
+                        System.arraycopy(Helper.Int2Byte(seq), 0, toSendSegment, 1, 4);
+                        System.arraycopy(Helper.Int2Byte(0), 0, toSendSegment, 5, 4);
+                        System.arraycopy(Helper.Int2Byte(lenthPerRead + 13), 0, toSendSegment, 9, 4);
+                        //initial header
+
+                        //copy data
+                        System.arraycopy(readBuf, 0, toSendSegment, 13, toSendSegment.length - 13);
+
+                        PLD pld = new PLD();
+                        if (pld.isDrop()) {//TODO  PLD detail
+                            Args.log.recordTrans(toSendSegment, "drop");
+                        } else if (pld.isDuplicate()) {
+                            Args.log.recordTrans(toSendSegment, "duplicate");
+                        } else if (pld.isCorrupt()) {
+                            Args.log.recordTrans(toSendSegment, "corrupt");
+                        } else if (pld.isDelay()) {
+                            Args.log.recordTrans(toSendSegment, "delay");
+                        } else if (pld.isOrder()) {
+                            Args.log.recordTrans(toSendSegment, "reorder");
+                        } else {//normal
+                            toSendPacket = new DatagramPacket(toSendSegment, lenthPerRead + 13, new InetSocketAddress(Args.RECEIVE_HOST_IP, Args.RECEIVE_PORT));
+
+                            Args.log.recordTrans(toSendSegment, "normal");
+                            Args.ds.send(toSendPacket);
+                            Args.LastByteSent+=segmentSize;
+                            Args.sentNotAcked.put(seq,toSendSegment);//buffer sent not acked
+                            seq++;
+                        }
+
+
+                    }
+                }
             }
 
-            toSendBuf[0]=(byte) 32;
-            System.arraycopy(Helper.Int2Byte(seq),0,toSendBuf,1,4);
-            System.arraycopy(Helper.Int2Byte(0),0,toSendBuf,5,4);
-            System.arraycopy(Helper.Int2Byte(13),0,toSendBuf,9,4);
-            Args.ds.send(new DatagramPacket(toSendBuf,13,new InetSocketAddress(Args.RECEIVE_HOST_IP,Args.RECEIVE_PORT)));
+            toSendSegment[0] = (byte) 32;
+            System.arraycopy(Helper.Int2Byte(seq), 0, toSendSegment, 1, 4);
+            System.arraycopy(Helper.Int2Byte(0), 0, toSendSegment, 5, 4);
+            System.arraycopy(Helper.Int2Byte(13), 0, toSendSegment, 9, 4);
+            Args.ds.send(new DatagramPacket(toSendSegment, 13, new InetSocketAddress(Args.RECEIVE_HOST_IP, Args.RECEIVE_PORT)));
             Args.ds.close();
             System.out.println("client has closed");
         } catch (FileNotFoundException e) {
