@@ -32,7 +32,7 @@ public class TransferFile extends Thread {
             while ((lenthPerRead = inputStream.read(readBuf)) != -1) {
                 //TODO PLD
                 while (Args.LastByteAcked != readBuf.length) {//
-                    if (Args.baseEnd - Args.LastByteSent >= toSendSegment.length) {//avaliable space to send
+                    if (Args.baseEnd - Args.LastByteSent >0) {//avaliable space to send
 
                         //initial header
                         System.arraycopy(Helper.Int2Byte(seq), 0, toSendSegment, 1, 4);
@@ -60,6 +60,15 @@ public class TransferFile extends Thread {
                             Args.log.recordTrans(toSendSegment, "normal");
                             Args.ds.send(toSendPacket);
                             Args.LastByteSent+=segmentSize;
+                            byte[] bytes = new byte[4096];
+                            receiveACKPacket = new DatagramPacket(bytes, bytes.length);
+                            Args.ds.receive(receiveACKPacket);
+                            byte[] header =receiveACKPacket.getData();
+                            byte[] ackNum=new byte[4];
+                            System.arraycopy(header,5,ackNum,0,4);
+                            int ack = Helper.Byte2Int(ackNum);
+                            base = ack+1;
+
                             Args.sentNotAcked.put(seq,toSendSegment);//buffer sent not acked
                             seq++;
                         }
@@ -83,4 +92,15 @@ public class TransferFile extends Thread {
         }
 
     }
+    public void timeOut() throws Exception {
+//        for(int i = base;i < nextSeq;i++){
+//            String clientData = "客户端重新发送的数据编号:" + i;
+//            System.out.println("向服务器重新发送的数据:" + i);
+            byte[] data = clientData.getBytes();
+            DatagramPacket datagramPacket = new DatagramPacket(data, data.length,new InetSocketAddress(Args.RECEIVE_HOST_IP, Args.RECEIVE_PORT));
+            Args.ds.send(datagramPacket);
+//        }
+    }
+
+
 }
