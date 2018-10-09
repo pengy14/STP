@@ -92,6 +92,13 @@ class Log {
             output.write("Time: " + time + '\n');
             // transmitted a SYN packet
             switch (type) {
+                case "SYN":
+                    output.write("Event: send SYN with sequence number " + seq_num + "   ");
+                    output.write("Packet Details:\n");
+                    output.write("Header: SYN = 1  ACK = 0 seq_num: " + seq_num +
+                            " packet length: " + packet_len + "   ");
+                    output.write("Data:\n" + content + "\n\n");
+                    break;
                 case "drop":
                     output.write("Event: drop packet with sequence number " + seq_num + "   ");
                     output.write("Packet Details:\n");

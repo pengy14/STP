@@ -24,11 +24,8 @@ public class Args {
     public static int ack_num = 0;
     public static int local_port;
     public static DatagramSocket ds;
-    public static int LastByteAcked = 0;
-    public static int LastByteSent = 0;
-    public static int base = 0;
-    public static int baseEnd = base + MWS;
-    public static Timer timer = new Timer();
+    public static int LastByteAcked = -1;
+    public static int LastByteSent = -1;
 //    public static int timeout=
 //    public static
     // HashMap used to simulate send window

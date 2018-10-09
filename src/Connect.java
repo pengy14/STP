@@ -1,4 +1,4 @@
-import com.sun.org.apache.xpath.internal.Arg;
+
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -26,7 +26,7 @@ public class Connect extends Thread {
         if (ACK == 1)
             header[0] = (byte) 0x40;
         System.arraycopy(Helper.Int2Byte(Args.header_len), 0, header, 9, 4);
-        Args.log.recordTrans(header, true);
+        Args.log.recordTrans(header, "SYN");
         try {
             DatagramPacket dp = new DatagramPacket(header,
                     header.length,

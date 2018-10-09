@@ -1,26 +1,31 @@
-Time: 2018-10-08 12:19:13
-Event: Transmitted SYN packet with sequence number 1
-Packet Details:
-Header: SYN = 1  ACK = 0 seq_num: 1 ack_num: 0 packet length: 13
+Time: 2018-10-09 20:01:47
+Event: send SYN with sequence number 1   Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13   Data:
 
-Time: 2018-10-08 12:19:15
-Event: Transmitted ACK packet with ack number 1
-Packet Details:
-Header: SYN = 0  ACK = 1 seq_num: 2 ack_num: 1 packet length: 13
 
-Time: 2018-10-08 12:19:15
-Event: Transmitted ACK packet with ack number 1
-Packet Details:
-Header: SYN = 0  ACK = 1 seq_num: 2 ack_num: 1 packet length: 13
+Time: 2018-10-09 20:01:49
+Event: send SYN with sequence number 2   Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 2 packet length: 13   Data:
 
-Time: 2018-10-08 12:19:17
-Event: Transmitted DATA packet with sequence number 0   Packet Details:
-Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 85   Data:
+
+Time: 2018-10-09 20:01:49
+Event: send SYN with sequence number 2   Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 2 packet length: 13   Data:
+
+
+Time: 2018-10-09 20:01:51
+Event: send packet with sequence number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53   Data:
 11111111
 122132
 fdhaisoireu ;
-34fuiuouoi
-rewotqlntq0
-rewq99ont9
-jorwuqou
+34fuiuo
+
+Time: 2018-10-09 20:01:51
+Event: send packet with sequence number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53   Data:
+uoi
+rewotq22132
+fdhaisoireu ;
+34fuiuo
 

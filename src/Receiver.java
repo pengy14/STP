@@ -53,7 +53,7 @@ class Receiver extends Thread {
     /*
      * write log for packet sent
      */
-    public void recordIn(byte[] data, int SYN, int ACK,
+    public void recordToSend(byte[] data, int SYN, int ACK,
                          int seq_num, int ack_num, int packet_len) {
         // set time format
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -100,7 +100,7 @@ class Receiver extends Thread {
     /*
      * write log for packet received
      */
-    public void recordOut(int SYN, int ACK, int seq_num, int ack_num,
+    public void recordReceived(int SYN, int ACK, int seq_num, int ack_num,
                           int packet_len) {
 
         // set time format
@@ -129,7 +129,7 @@ class Receiver extends Thread {
                 output.write("Header: SYN = 1  ACK = 1 seq_num: " + seq_num +
                         " packet length: " + packet_len + "\n\n");
             }else {//SYN=0  ACK=0  data packet
-                output.write("Event: Transmitted an data packet with ack number " + ack_num + "   ");
+                output.write("Event: Received an data packet with ack number " + ack_num + "   ");
                 output.write("Packet Details:\n");
                 output.write("Header: SYN = 0  ACK = 0 seq_num: " + seq_num +
                         " packet length: " + packet_len + "\n\n");
@@ -217,12 +217,12 @@ class Receiver extends Thread {
             if (header[0] == -128) {//SYN flag is 1,connection request
                 byte[] header1 = new byte[header_len];
                 if (header[0] == -128) {
-                    recordOut(1, 0, seq_num, ack_num, packet_len);
+                    recordReceived(1, 0, seq_num, ack_num, packet_len);
                     // set both  SYN and ACK to 1
                     header1[0] = (byte) 0xc0;
                     System.out.println("receive a SYN");
                 } else {
-                    recordIn(data, 0, 1, seq_num, ack_num, packet_len);
+                    recordToSend(data, 0, 1, seq_num, ack_num, packet_len);
                     // set ACK to 1
                     header1[0] = (byte) 0x40;
                     System.out.println("received an ACK");
@@ -242,7 +242,7 @@ class Receiver extends Thread {
                             packet.length,
                             dest_addr);
                     // write log
-                    recordIn(null,1, 1, tosendSeq, tosendAck, packet.length);
+                    recordToSend(null,1, 1, tosendSeq, tosendAck, packet.length);
                     System.out.println("has sent dp1");
                     ds.send(dp1);
                 } catch (SocketException e) {
@@ -274,16 +274,29 @@ class Receiver extends Thread {
             // all flags in header are 0, means this is a data packet
             else if (header[0] == 0) {
                 System.out.println("receive a datapacket");
-                recordOut( 0, 0, seq_num, ack_num, packet_len);
+                recordReceived( 0, 0, seq_num, ack_num, packet_len);
                 list.put(seq_num, data);
                 System.out.println("Received a data packet with seq num " + seq_num);
                 WriteFile(data);
-                System.out.println(new String(data)+"   dataaaaaaaaa  ");
-                byte[] tosend = new byte[header_len];
-                // set ACK flag to 1
-                tosend[0] = 0x40;
+                System.out.println(new String(data)+"  " +
+                        " dataaaaaaaaa  ");
 
-                int tosend_ack_num = LastWriteByte;
+                // set ACK flag to 1
+
+                byte[] toSendAckHeader=new byte[13];
+                int tosend_ack_num = seq_num+data.length;
+                byte[] headerAckNum=Helper.Int2Byte(tosend_ack_num);
+                byte[] headerSequenceNum=Helper.Int2Byte(seq_num);
+                toSendAckHeader[0]=  (byte) 0x40;
+                System.arraycopy(headerAckNum,0,toSendAckHeader,1,4);
+                System.arraycopy(headerSequenceNum,0,toSendAckHeader,5,4);
+                System.arraycopy(Helper.Int2Byte(13),0,toSendAckHeader,9,4);
+                DatagramPacket toSendPacket=new DatagramPacket(toSendAckHeader,toSendAckHeader.length,dest_addr);
+                try {
+                    ds.send(toSendPacket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 /*
                  * Find out the correct acknowledgment number, since this is
                  * cumulative ack, so the ack number will be last byte which is
@@ -302,7 +315,7 @@ class Receiver extends Thread {
 //                System.arraycopy(Helper.Int2Byte(tosend.length), 0, tosend, 9, 4);
 //                try {
 //                    DatagramPacket out_dp = new DatagramPacket(tosend, tosend.length, dest_addr);
-//                    recordOut(0, 1, tosendSeq, tosend_ack_num, tosend.length);
+//                    recordReceived(0, 1, tosendSeq, tosend_ack_num, tosend.length);
 //                    ds.send(out_dp);
 //                } catch (IOException e) {
 //                    // TODO Auto-generated catch block
