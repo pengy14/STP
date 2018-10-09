@@ -67,7 +67,7 @@ public class TransferFile extends Thread {
                             byte[] ackNum=new byte[4];
                             System.arraycopy(header,5,ackNum,0,4);
                             int ack = Helper.Byte2Int(ackNum);
-                            base = ack+1;
+                            Args.LastByteAcked = ack+1;
 
                             Args.sentNotAcked.put(seq,toSendSegment);//buffer sent not acked
                             seq++;
@@ -92,14 +92,14 @@ public class TransferFile extends Thread {
         }
 
     }
-    public void timeOut() throws Exception {
-//        for(int i = base;i < nextSeq;i++){
-//            String clientData = "客户端重新发送的数据编号:" + i;
-//            System.out.println("向服务器重新发送的数据:" + i);
-            byte[] data = clientData.getBytes();
+    public void timeOut(byte[] readBuf) throws Exception {
+        for(int i = Args.LastByteAcked;i <Args.LastByteSent;i++){
+            
+            System.out.println("向服务器重新发送的数据:" + i);
+
             DatagramPacket datagramPacket = new DatagramPacket(data, data.length,new InetSocketAddress(Args.RECEIVE_HOST_IP, Args.RECEIVE_PORT));
             Args.ds.send(datagramPacket);
-//        }
+        }
     }
 
 
