@@ -13,7 +13,7 @@ class Receiver extends Thread {
 
     private FileOutputStream fos;
     // path of log file
-    private String logFilePath = "./src/Receiver_log.txt";
+    private String logFilePath = "./Receiver_log.txt";
     //log file
     private File logFile;
     // length of mtp header
@@ -21,7 +21,7 @@ class Receiver extends Thread {
     // port number of receiver
     private int port;
     // path of file which data will be written to
-    private String receiveFilePath = "./src/Receiver.txt";
+    private String receiveFilePath = "./Receiver.txt";
     //receive file
     private File receiveFile;
 

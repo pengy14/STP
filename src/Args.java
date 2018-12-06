@@ -8,7 +8,7 @@ public class Args {
     public static String RECEIVE_HOST_IP = "127.0.0.1";
     public static int RECEIVE_PORT = 6666;
     public static int CLIENT_PORT = 2000;
-    public static String filename = "./src/";
+    public static String filename = "./";
     public static int MWS = 400;
     public static int MSS = 50;
     public static int gamma;

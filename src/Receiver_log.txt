@@ -16,3 +16,39 @@ Time: 2018-10-09 20:01:51
 Event: Received an data packet with ack number 0   Packet Details:
 Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53
 
+Time: 2018-10-20 17:07:12
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-20 17:07:12
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-20 17:07:16
+Event: Received an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53
+
+Time: 2018-10-20 17:07:16
+Event: Received an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53
+
+Time: 2018-10-20 19:42:48
+Event:Connection request
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13
+
+Time: 2018-10-20 19:42:48
+Event: Received a SYN with seq number 0
+Packet Details:
+Header: SYN = 1  ACK = 0 seq_num: 0 ack_num: 2 packet length: 13
+
+Time: 2018-10-20 19:42:52
+Event: Received an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53
+
+Time: 2018-10-20 19:42:52
+Event: Received an data packet with ack number 0   Packet Details:
+Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53
+

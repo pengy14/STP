@@ -1,31 +1,35 @@
-Time: 2018-10-20 17:07:12
+Time: 2018-10-20 19:42:48
 Event: send SYN with sequence number 1   Packet Details:
 Header: SYN = 1  ACK = 0 seq_num: 1 packet length: 13   Data:
 
 
-Time: 2018-10-20 17:07:14
+Time: 2018-10-20 19:42:50
 Event: send SYN with sequence number 2   Packet Details:
 Header: SYN = 1  ACK = 0 seq_num: 2 packet length: 13   Data:
 
 
-Time: 2018-10-20 17:07:14
+Time: 2018-10-20 19:42:50
 Event: send SYN with sequence number 2   Packet Details:
 Header: SYN = 1  ACK = 0 seq_num: 2 packet length: 13   Data:
 
 
-Time: 2018-10-20 17:07:16
+Time: 2018-10-20 19:42:52
 Event: send packet with sequence number 0   Packet Details:
 Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53   Data:
-11111111
-122132
-fdhaisoireu ;
-34fuiuo
+%PDF-1.3
+%����
 
-Time: 2018-10-20 17:07:16
+1 0 obj
+<<
+/Type /C
+
+Time: 2018-10-20 19:42:52
 Event: send packet with sequence number 0   Packet Details:
 Header: SYN = 0  ACK = 0 seq_num: 0 packet length: 53   Data:
-uoi
-rewotq22132
-fdhaisoireu ;
-34fuiuo
+atalog
+/Ou����
+
+1 0 obj
+<<
+/Type /C
 

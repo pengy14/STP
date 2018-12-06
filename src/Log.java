@@ -8,7 +8,7 @@ import java.util.Date;
 class Log {
 
     // name of log file
-    private static String logname = "./src/Sender_log.txt";
+    private static String logname = "./Sender_log.txt";
 
     // Constructor of class Log
     public Log() {
